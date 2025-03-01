@@ -8,6 +8,9 @@ from langchain_groq import ChatGroq
 from langgraph.checkpoint.memory import MemorySaver
 import datetime
 
+
+
+
 # OrderStatusManager class
 class OrderStatusManager:
     def __init__(self):
@@ -29,12 +32,40 @@ class OrderStatusManager:
         self.original_prices = self.order_price.copy()
 
     def get_total_price(self, order_id: str) -> str:
+        
+        """Get the total price of an order.
+
+        Args:
+            order_id: The ID of the order.
+
+        Returns:
+            The total price of the order.
+        """
         return self.order_price.get(order_id, "total sum price")
 
+        
+
     def get_order_status(self, order_id: str) -> str:
+        """Get the status of an order.
+
+        Args:
+            order_id: The ID of the order.
+
+        Returns:
+            The status of the order.
+        """
         return self.order_statuses.get(order_id, "Order ID not found.")
 
     def initiate_return(self, order_id: str, reason: str) -> str:
+        """Initiate a return for an order.
+
+        Args:
+            order_id: The ID of the order.
+            reason: The reason for the return.
+
+        Returns:
+            A message confirming the return initiation.
+        """
         if order_id in ["12345", "67890", "11223"]:
             shipping_date_str = self.order_shipped.get(order_id)
             if shipping_date_str:
@@ -60,6 +91,15 @@ class OrderStatusManager:
             return "Order ID not found. Cannot initiate return."
 
     def cancel_return(self, order_id: str, reason: str) -> str:
+        """Cancel a return for an order.
+
+        Args:
+            order_id: The ID of the order.
+            reason: The reason for canceling the return.
+
+        Returns:
+            A message confirming the return cancellation.
+        """
         if order_id in self.order_statuses:
             if self.order_statuses[order_id] == "Return Initiated":
                 self.order_statuses[order_id] = self.order_statuses.get(
